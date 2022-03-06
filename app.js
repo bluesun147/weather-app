@@ -1,20 +1,19 @@
 const geocode = require('./utils/geocode');
 const forecast = require('./utils/forecast');
 
-
 const city = process.argv[2]; // node app Seoul
 if (!city) {
     console.log('enter city!');
 } else {
-    geocode(city, (error, data) => {
-        if (error) {
+    geocode(city, (error, {latitude, longitude, location} = {}) => { // geocode(city, (error, data) => { data는 객체
+        if (error) {                                      // ㄴ> 기본값 지정.
             return console.log(error);
         } // callback chaining
-        forecast(data.latitude, data.longitude, (error, forecastData) => {
+        forecast(latitude, longitude, (error, forecastData) => { // data.latitude...
             if (error) {
                 return console.log(error);
             }
-            console.log(data.location);
+            console.log(location);
             console.log(forecastData);
         })
     })
